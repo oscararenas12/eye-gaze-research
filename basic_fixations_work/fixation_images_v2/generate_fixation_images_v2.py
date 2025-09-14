@@ -5,8 +5,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # %% Settings
-CSV_PATH    = '../data/P23_T2(in)_valid_fixations.csv'
-OUT_DIR     = './fixation_images_v2/generate_images_v2'
+CSV_PATH    = '../../data/P23_T2(in)_valid_fixations.csv'
+OUT_DIR     = './generated_images_v2'
 SCREEN_RES  = (1920, 1080)   # width, height in pixels
 DPI         = 150            # figure DPI (used with SCREEN_RES to size the canvas)
 

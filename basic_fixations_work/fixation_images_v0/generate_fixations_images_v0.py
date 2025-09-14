@@ -6,13 +6,13 @@ import numpy as np
 
 #%% Load the eye-tracking data
 # Read the CSV file
-df = pd.read_csv('../data/P23_T2(in)_valid_fixations.csv')
+df = pd.read_csv('../../data/P23_T2(in)_valid_fixations.csv')
 print(f"Loaded {len(df)} rows of eye-tracking data")
 print(df.head(3))  # Display first few rows to verify data
 
 
 #%% Create output directory for images
-output_dir = '/fixation_images_v0/generated_images_v0'
+output_dir = './generated_images_v0'
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
     print(f"Created directory: {output_dir}")
