@@ -17,10 +17,7 @@ If your data has already been validated as good fixation points, then you don’
 - At the end it looks good and it even get outline in red but early frames looked almost blank/unhelpful.
 
 `generate_fixation_images_v2.py` = 13m 7.4s
-- Preferred approach for visualization: shows all prior fixations with the current fixation emphasized. If the current point appears too large, adjust CURR_SIZE. 
-
-`generate_fixation_images_v2.py` = TBD
-- Testing a cockpit image as the background for the fixation overlay. I may need the original high-resolution image to evaluate properly.
+- Preferred approach for visualization: shows all prior fixations with the current fixation emphasized. If the current point appears too large, adjust CURR_SIZE.
 
 Russell have nice heat map, is there value in bringing them into one with fixation points.
 
