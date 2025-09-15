@@ -93,9 +93,11 @@ def create_cumulative_fixation_image_with_edges_v1(data_up_to_row, current_row, 
 
     # Draw edges connecting sequential fixation points using vectorized LineCollection
     if len(x_coords) > 1:
-        # Create line segments array for LineCollection (much faster than individual plots)
-        segments = np.array([[[x_coords[i], y_coords[i]], [x_coords[i+1], y_coords[i+1]]]
-                            for i in range(len(x_coords) - 1)])
+        # Create line segments array for LineCollection (vectorized operation)
+        segments = np.column_stack([
+            np.column_stack([x_coords[:-1], y_coords[:-1]]),
+            np.column_stack([x_coords[1:], y_coords[1:]])
+        ]).reshape(-1, 2, 2)
 
         # Create and add LineCollection (vectorized operation)
         lc = LineCollection(segments, colors=edge_color, alpha=edge_alpha, linewidths=edge_width)
