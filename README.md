@@ -17,10 +17,13 @@ If your data has already been validated as good fixation points, then you don’
 - At the end it looks good and it even get outline in red but early frames looked almost blank/unhelpful.
 
 `generate_fixation_images_v2.py` = 13m 7.4s
+- Preferred approach for visualization: shows all prior fixations with the current fixation emphasized. If the current point looks too large, I can adjust it. I also added a final image of this approach.
 
 ### edges_fixation_work
 
 `generate_fixation_edges_v0.py` = 1hr to generate 2500 out of 4730
+
+Creates edge-connected fixation images by connecting gray lines between fixation points with white dots for previous fixations. Only down to this way is that its taking way too long because its independently generating each frame from scratch, redrawing all cumulative edges and points up to the current fixation and the large white dot for the current point becomes obscured as edge density increases over time. Also visually not appealing, very bland
 
 - Gray lines connecting fixation points in sequence
 - Small white dots for previous fixations
@@ -40,6 +43,8 @@ If your data has already been validated as good fixation points, then you don’
 
 `generate_fixation_edges_v1.py` = 23m 9.7s
 
+ Optimized version of v0, uses batch operations to draw all connecting lines at once instead of one-by-one, processes data in efficient numpy arrays rather than slower pandas operations, and includes memory cleanup to prevent slowdowns. Achieves 5x speed improvement while maintaining identical image output. Same cons exist from v0, large white dot for the current point becomes obscured as edge density increases over time and not visually appealing, very bland.
+ 
   1. Vectorized edge plotting: Uses LineCollection instead of individual ax.plot() calls - should be 5-10x faster for edge drawing    
   2. Precomputed numpy arrays: Extract coordinates once, reuse with array slicing instead of repeated pandas operations
   3. Matplotlib optimizations: Disabled interactive mode, increased path chunk size, removed figure warnings
@@ -55,12 +60,53 @@ If your data has already been validated as good fixation points, then you don’
   The script maintains the exact same visual output as v0 but should run significantly faster, especially noticeable on the later images with hundreds of edges.
 
 `generate_fixation_edges_v2.py` = 18m 31s
+
+Visually more appealing + optimized version. 
+
 - Improved color scheme: orange previous points, yellow current point with red border, cyan edges
 - Added z-order control to prevent current point overlap by edges
 - Increased sizes and alpha values for better visibility against black background
 - Compare visual quality with v1 images - confirm better visibility of points and edges
- 
-Russell have nice heat map, is there value in bringing them into one with fixation points.
+
+### duration_fixation_work
+
+`generate_fixation_duration_v0.py` = 23m 40.7s
+Looks interesting enough, I think it might have more value than original iteration since we there emphasis on duration of outer fixations points
+
+`generate_fixation_duration_v1.py` = 37m 21.9s
+Since I got duration points from v0 I thought maybe instead of point it could be heatmap duration point so longer fixations create "hotter" spots on the grid but too much smoothing for the heatmap, the smoothing should be less aggressive because there so many datapoint if deviates from source of heat it wont leave any trace of it. It did help create better/ideal heatmap that I think make sense.
+- Note About Smoothing - Smoothing: Applies Gaussian blur to create smooth heat gradients instead of discrete pixels, making the visualization more readable. 
+
+
+`generate_fixation_duration_v2.py` = 49m 22.3s
+My thought for this one was merge v0 + v1 because now the heatmap could a layer over duration fixation points and overall I thought this was pretty good. Initial images are concerning just i don't how CNN will react to them but final mid way to end looks good. Primary concern is GRID_SIZE for heatmap, since this impacts performance. The GRID_SIZE parameter controls the spatial resolution of the heatmap computation, representing a critical trade-off between visual quality and processing speed.
+
+How GRID_SIZE Works:
+  - Creates a computational grid that maps screen coordinates to discrete cells
+  - Each fixation point gets mapped to a grid cell based on its (x,y) position
+  - Duration intensity accumulates within each cell (multiple fixations stack)
+  - Gaussian blur operates across this grid to create smooth heat gradients
+  - Final result gets upscaled to full screen resolution for display
+
+Resolution Options:
+  - (192, 108) - 1/10th resolution: Fast processing (~18-37min), moderate detail
+  - (768, 432) - 1/2.5th resolution: Balanced quality/speed (~1-2hrs)
+  - (1920, 1080) - Full resolution: Maximum detail (~3-6hrs), pixel-perfect precision
+
+Key Features:
+- Layered Visualization: Duration-weighted heatmap (top layer, z=10) overlays persistent fixation points (bottom layer, z=2-3)
+- Dual Duration Encoding: Point size scales with fixation duration (20-150px range), while heatmap intensity reflects cumulative duration density
+- Progressive Accumulation: Each frame shows all previous fixations plus current, building comprehensive gaze pattern over time
+- Enhanced Visibility: Increased heatmap alpha (0.4-0.7) ensures heat patterns remain visible even with hundreds of accumulated points
+
+Technical Implementation:
+- Creates low-resolution heat grid for performance optimization
+- Applies Gaussian smoothing (σ=2.0) for gradient transitions
+- Uses 'hot' colormap (black→red→yellow→white) with adaptive transparency
+- Color scheme: orange previous points, cyan current point with white borders
+
+Overall the final image look really helpful, i would say.
+
 
 #### Notes:
 
