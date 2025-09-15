@@ -5,8 +5,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # %% Settings
-CSV_PATH   = '../data/P23_T2(in)_valid_fixations.csv'
-OUT_DIR    = './fixation_images_v1/generated_images_v1'
+CSV_PATH   = '../../data/P23_T2(in)_valid_fixations.csv'
+OUT_DIR    = './generated_images_v1'
 IMG_W, IMG_H = 1920, 1080
 BINS       = 50
 DPI        = 150
