@@ -53,6 +53,12 @@ If your data has already been validated as good fixation points, then you don’
   - Same visual output with absolute precision maintained
 
   The script maintains the exact same visual output as v0 but should run significantly faster, especially noticeable on the later images with hundreds of edges.
+
+`generate_fixation_edges_v2.py` = 18m 31s
+- Improved color scheme: orange previous points, yellow current point with red border, cyan edges
+- Added z-order control to prevent current point overlap by edges
+- Increased sizes and alpha values for better visibility against black background
+- Compare visual quality with v1 images - confirm better visibility of points and edges
  
 Russell have nice heat map, is there value in bringing them into one with fixation points.
 
