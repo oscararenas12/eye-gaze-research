@@ -107,6 +107,10 @@ Technical Implementation:
 
 Overall the final image look really helpful, i would say.
 
+### edges_duration_fixation_work
+
+`generate_edges_duration_fixations_v0.py` = 71m 5.7s
+Merge of fixation_duration_v2.py + fixation_edges_v2.py. I think edges may cause too much noise but would love to hear your thoughts 
 
 #### Notes:
 
