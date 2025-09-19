@@ -107,6 +107,9 @@ Technical Implementation:
 
 Overall the final image look really helpful, i would say.
 
+#### D2 Lab Runtimes
+`generate_fixation_duration_v2.py` = 21m 17.3s
+
 
 #### Notes:
 

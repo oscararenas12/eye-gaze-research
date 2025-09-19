@@ -7,7 +7,7 @@ from scipy.ndimage import gaussian_filter
 
 # %% Settings
 CSV_PATH    = '../../data/P23_T2(in)_valid_fixations.csv'
-OUT_DIR     = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'generated_duration_images_v2')
+OUT_DIR     = './generated_duration_images_v2'
 SCREEN_RES  = (1920, 1080)   # width, height in pixels
 DPI         = 150            # figure DPI (used with SCREEN_RES to size the canvas)
 
